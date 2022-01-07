@@ -41,23 +41,26 @@ import org.eclipse.californium.core.server.resources.ResourceObserver;
  */
 public class Com_MyObserverResource_Con_Mwe  extends CoapResource {
 
-		
-		private int int_connect_get_num=0;
-		private int int_mytask_used=0;
+		private Type messageType        	= Type.NON;		// messageType 	vs qos
+		private int int_connect_get_num		=0;
+		private int statusUpdate			=0;
+		private int statusUpdateMaxTimes	=30;
 		//
-		MyTimerTaskForUpdate myUpdateTask1 = null;
+		MyTimerTaskForUpdate myUpdateTask1 	= null;
 		Timer timer = null;
-		
 		//
-	    String content     	 	= "你好";
+	    String content     	 				= "你好";
 		//
+	    //
+	    boolean resourceFinished 			= false;
+	    //
 		//
 		public Com_MyObserverResource_Con_Mwe(String name) {
 			super(name);
 			//
 			//----------------------------------------
 			this.setObservable(true); 				// enable observing
-			this.setObserveType(Type.CON); 			// configure the notification type to CONs, 如果不写这个默认的是 NON
+			this.setObserveType(messageType); 			// configure the notification type to CONs, 如果不写这个默认的是 NON
 			// 涉及到 https://tools.ietf.org/html/rfc6690#section-4 	(这讲了Linkformat 这么做的概念)
 			// 和  https://tools.ietf.org/html/rfc6690#section-4.1
 			// 其实就是设置好 application/link-format 
@@ -89,14 +92,20 @@ public class Com_MyObserverResource_Con_Mwe  extends CoapResource {
 			public void run() {
 				System.out.println("UpdateTask-------name:"+Com_MyObserverResource_Con_Mwe.this.getName());
 				//
-				// 类比于 mqtt 它每一次信息自己更新
-				int_mytask_used = int_mytask_used+1;
 				// .. periodic update of the resource
-				changed(); // notify all observers
+				// 为了保持 与Mqtt 测量的方式 相同, 当信息更新次数>statusUpdateMaxTimes-1时, 不再发送信息给 client
+				
+				if(statusUpdate<=statusUpdateMaxTimes-1) {
+					//
+					statusUpdate = statusUpdate+1;
+					changed(); // notify all observers
+				}
+				else {
+					resourceFinished = true;
+				}
+				// 类比于 mqtt 它每一次信息自己更新
 			}
 		}
-		//
-		//
 		//
 		//
 		//--------------------------------------------------------------------------------
@@ -106,10 +115,7 @@ public class Com_MyObserverResource_Con_Mwe  extends CoapResource {
 		@Override
 		public void handleGET(CoapExchange exchange) {
 			System.out.println("handleGET: "+ super.getName());
-			//
-			//int_connect_get_num = int_connect_get_num +1;
-			//exchange.respond(ResponseCode.CONTENT, "task used num:"+int_mytask_used);
-			exchange.respond("task used num:"+int_mytask_used);
+			exchange.respond("task used num:"+statusUpdate);
 		}
 
 		//--------------------------------------------------------------------------------

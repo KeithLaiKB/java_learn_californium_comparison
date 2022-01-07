@@ -1,5 +1,7 @@
 package com.learn.californium.server;
 
+import java.util.Date;
+
 import org.eclipse.californium.core.CoapServer;
 
 
@@ -26,9 +28,13 @@ public class TestObserverMain_Mwe  {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//
+		long startTime			=System.nanoTime();   		//nanoTime 会比 currentTimeMillis更加精确  
+		System.out.println(new Date(System.currentTimeMillis()));
+		//
+		//
 	    String resourceName     = "hello_observer";			// resourceName 	vs topic
 	    String brokerAddress  	= "127.0.0.1";				// broker address
-	    int serverPort			= 1883;						// server port 		vs broker port
+	    int serverPort			= 5656;						// server port 		vs broker port
 	    String clientId     	= "JavaSample_sender";		// client Id
 	    String content     	 	= "你好";
 	    //
@@ -38,12 +44,14 @@ public class TestObserverMain_Mwe  {
 		server.add(myobResc1);
 		server.start(); // does all the magic
 		//----------------------------- give some time to run ------------------------
-		// 停留一段时间 让server继续运行
-		try {
-			Thread.sleep(30000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		while(myobResc1.resourceFinished==false) {
+			// 停留一段时间 让server继续运行, 这里用 sleep 是为了减少loop的时间
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		//---------------------------------------------------------------------------
 		//
@@ -59,7 +67,7 @@ public class TestObserverMain_Mwe  {
 		// 其实 这后面的可以不用, 只是用来判断resource是否结束了,
 		// 如果resource 没关掉, 就可以 在这段时间内 发现有resource的输出
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(300);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -68,6 +76,13 @@ public class TestObserverMain_Mwe  {
 		// because the resource use the timer
 		server.destroy();
 		System.out.println("destroy the server and stop the resource timer finished!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	
+	
+        long endTime			=System.nanoTime();   		//nanoTime 会比 currentTimeMillis更加精确
+        long usedTime			= endTime - startTime;
+        System.out.println("usedTime:"+usedTime);			//初步测试 貌似californium 比 hivemq要快
+        // (51839933100-51426617900)/1000000000 = 0.4133152			10条
+        // (152356597100-151234731200)/1000000000 = 1.1218659		30条
 	}
 
 	
