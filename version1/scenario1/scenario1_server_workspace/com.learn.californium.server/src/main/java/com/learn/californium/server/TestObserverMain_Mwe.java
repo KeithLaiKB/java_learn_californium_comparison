@@ -44,6 +44,10 @@ public class TestObserverMain_Mwe  {
 		server.add(myobResc1);
 		server.start(); // does all the magic
 		//----------------------------- give some time to run ------------------------
+		// 因为它和main是不同线程的, 所以我要让我的main 等到 resource发布了我所需要测量的 数据报个数 
+		// 才去stop resource
+		// 然后
+		// 才去destroy我们的server
 		while(myobResc1.resourceFinished==false) {
 			// 停留一段时间 让server继续运行, 这里用 sleep 是为了减少loop的时间
 			try {

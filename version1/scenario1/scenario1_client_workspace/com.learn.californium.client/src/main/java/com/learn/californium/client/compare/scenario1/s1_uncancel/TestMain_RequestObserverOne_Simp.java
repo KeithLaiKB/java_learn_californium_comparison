@@ -75,7 +75,6 @@ public class TestMain_RequestObserverOne_Simp {
 		// shutdown client
         client.shutdown();
         //
-        System.exit(0);
 		//		
     }
 }
