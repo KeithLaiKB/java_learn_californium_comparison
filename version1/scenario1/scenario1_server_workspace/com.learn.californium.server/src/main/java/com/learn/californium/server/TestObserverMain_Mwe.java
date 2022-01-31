@@ -51,7 +51,7 @@ public class TestObserverMain_Mwe  {
 		while(myobResc1.resourceFinished==false) {
 			// 停留一段时间 让server继续运行, 这里用 sleep 是为了减少loop的时间
 			try {
-				Thread.sleep(500);
+				Thread.sleep(200);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

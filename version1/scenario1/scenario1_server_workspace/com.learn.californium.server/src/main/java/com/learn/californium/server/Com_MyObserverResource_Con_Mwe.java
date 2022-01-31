@@ -9,6 +9,7 @@ import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.CoapServer;
 import org.eclipse.californium.core.coap.CoAP.ResponseCode;
 import org.eclipse.californium.core.coap.CoAP.Type;
+import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.network.Endpoint;
 import org.eclipse.californium.core.observe.ObserveRelation;
 import org.eclipse.californium.core.observe.ObserveRelationContainer;
@@ -46,12 +47,12 @@ public class Com_MyObserverResource_Con_Mwe  extends CoapResource {
 		private int statusUpdate			=0;
 		private int statusUpdateMaxTimes	=30;
 		//
-		MyTimerTaskForUpdate myUpdateTask1 	= null;
-		Timer timer = null;
+		private MyTimerTaskForUpdate myUpdateTask1 	= null;
+		private Timer timer = null; 
 		//
-	    String content     	 				= "hello_my_world";
+		private String content     	 				= "hello_my_world";
 		//
-	    boolean resourceFinished 			= false;
+	    public boolean resourceFinished 			= false;
 	    //
 		//
 		public Com_MyObserverResource_Con_Mwe(String name) {
@@ -115,7 +116,8 @@ public class Com_MyObserverResource_Con_Mwe  extends CoapResource {
 		public void handleGET(CoapExchange exchange) {
 			System.out.println("--------------------------------------------------------------------");
 			System.out.println("--------- server side get method start -----------------------------");
-			exchange.respond(content+":"+statusUpdate);
+			//exchange.respond(content+":"+statusUpdate);
+			exchange.respond( ResponseCode.CONTENT, content+":"+statusUpdate, MediaTypeRegistry.TEXT_PLAIN); // 如果不写ResponseCode也可以, 它默认 ResponseCode.CONTENT, 如果不写 MediaTypeRegistry 也可以, 它默认是 MediaTypeRegistry.TEXT_PLAIN 
 			System.out.println("--------- server side get method end -------------------------------");
 			System.out.println("--------------------------------------------------------------------");
 		}

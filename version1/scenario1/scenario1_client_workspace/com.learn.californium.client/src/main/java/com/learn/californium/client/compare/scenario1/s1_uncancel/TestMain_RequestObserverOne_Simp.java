@@ -26,7 +26,10 @@ import org.eclipse.californium.core.CoapResponse;
  *
  */
 public class TestMain_RequestObserverOne_Simp {
-    public static void main(String[] args) {
+	private static int receivedMessageNum 					= 0;
+	private static int expectedReceivedMessageNum			= 30;
+
+	public static void main(String[] args) {
     	//
     	String myuri1 	     					= "coap://localhost:5656/hello_observer";
     	CoapObserveRelation coapObRelation1		= null;
@@ -43,8 +46,8 @@ public class TestMain_RequestObserverOne_Simp {
 
 	            @Override
 	            public void onLoad(CoapResponse response) {
-	            	System.out.println("on load: " + response.getResponseText());
-	            	System.out.println("get code: " + response.getCode().name());
+	            	System.out.println(response.getResponseText());
+	            	receivedMessageNum = receivedMessageNum +1;
 	            }
 
 	            @Override
@@ -62,12 +65,14 @@ public class TestMain_RequestObserverOne_Simp {
         //
         //---------------------------------------------
 		// 停留一段时间 让server继续运行
-		try {
-			Thread.sleep(300000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        while(receivedMessageNum < expectedReceivedMessageNum) {
+        	try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
         //
 		//------------------- close --------------------------
 		// cancel subscription
@@ -77,4 +82,5 @@ public class TestMain_RequestObserverOne_Simp {
         //
 		//		
     }
+
 }
