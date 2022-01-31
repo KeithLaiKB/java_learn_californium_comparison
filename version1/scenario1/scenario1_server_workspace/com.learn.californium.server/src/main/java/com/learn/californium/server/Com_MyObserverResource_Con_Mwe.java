@@ -42,16 +42,15 @@ import org.eclipse.californium.core.server.resources.ResourceObserver;
 public class Com_MyObserverResource_Con_Mwe  extends CoapResource {
 
 		private Type messageType        	= Type.NON;		// messageType 	vs qos
-		private int int_connect_get_num		=0;
+		//private int int_connect_get_num		=0;
 		private int statusUpdate			=0;
 		private int statusUpdateMaxTimes	=30;
 		//
 		MyTimerTaskForUpdate myUpdateTask1 	= null;
 		Timer timer = null;
 		//
-	    String content     	 				= "你好";
+	    String content     	 				= "hello_my_world";
 		//
-	    //
 	    boolean resourceFinished 			= false;
 	    //
 		//
@@ -114,8 +113,11 @@ public class Com_MyObserverResource_Con_Mwe  extends CoapResource {
 		//
 		@Override
 		public void handleGET(CoapExchange exchange) {
-			System.out.println("handleGET: "+ super.getName());
-			exchange.respond("task used num:"+statusUpdate);
+			System.out.println("--------------------------------------------------------------------");
+			System.out.println("--------- server side get method start -----------------------------");
+			exchange.respond(content+":"+statusUpdate);
+			System.out.println("--------- server side get method end -------------------------------");
+			System.out.println("--------------------------------------------------------------------");
 		}
 
 		//--------------------------------------------------------------------------------
