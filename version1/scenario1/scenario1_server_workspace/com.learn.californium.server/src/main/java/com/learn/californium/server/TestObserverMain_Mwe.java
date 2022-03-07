@@ -32,7 +32,7 @@ public class TestObserverMain_Mwe  {
 		System.out.println(new Date(System.currentTimeMillis()));
 		//
 		//
-	    String resourceName     = "hello_observer";			// resourceName 	vs topic
+	    String resourceName     = "Resource1";			// resourceName 	vs topic
 	    String brokerAddress  	= "127.0.0.1";				// broker address
 	    int serverPort			= 5656;						// server port 		vs broker port
 	    String clientId     	= "JavaSample_sender";		// client Id
@@ -71,7 +71,7 @@ public class TestObserverMain_Mwe  {
 		// 其实 这后面的可以不用, 只是用来判断resource是否结束了,
 		// 如果resource 没关掉, 就可以 在这段时间内 发现有resource的输出
 		try {
-			Thread.sleep(300);
+			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

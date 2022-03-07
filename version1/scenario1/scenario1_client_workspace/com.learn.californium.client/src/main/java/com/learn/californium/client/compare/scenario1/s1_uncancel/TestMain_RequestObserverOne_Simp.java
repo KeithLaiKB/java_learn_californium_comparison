@@ -27,11 +27,11 @@ import org.eclipse.californium.core.CoapResponse;
  */
 public class TestMain_RequestObserverOne_Simp {
 	private static int receivedMessageNum 					= 0;
-	private static int expectedReceivedMessageNum			= 30;
+	private static int expectedReceivedMessageNum			= 10;
 
 	public static void main(String[] args) {
     	//
-    	String myuri1 	     					= "coap://localhost:5656/hello_observer";
+    	String myuri1 	     					= "coap://localhost:5656/Resource1";
     	CoapObserveRelation coapObRelation1		= null;
     	CoapHandler myObserveHandler 			= null;
     	//
@@ -39,25 +39,22 @@ public class TestMain_RequestObserverOne_Simp {
     	// new client
     	CoapClient client = new CoapClient(myuri1);
         // set handler
-        try {
-			//
-        	// set handler for observer method, because observe method needs asynchronous operation
-			myObserveHandler = new CoapHandler() {
 
-	            @Override
-	            public void onLoad(CoapResponse response) {
-	            	System.out.println(response.getResponseText());
-	            	receivedMessageNum = receivedMessageNum +1;
-	            }
+		//
+    	// set handler for observer method, because observe method needs asynchronous operation
+		myObserveHandler = new CoapHandler() {
 
-	            @Override
-	            public void onError() {
-	            }
-	        };
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            @Override
+            public void onLoad(CoapResponse response) {
+            	System.out.println(response.getResponseText());
+            	receivedMessageNum = receivedMessageNum +1;
+            }
+
+            @Override
+            public void onError() {
+            }
+        };
+
         //
         // observe
         coapObRelation1 = client.observe(myObserveHandler);
