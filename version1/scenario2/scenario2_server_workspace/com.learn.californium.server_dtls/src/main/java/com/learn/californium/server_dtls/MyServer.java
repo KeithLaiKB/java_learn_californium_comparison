@@ -5,6 +5,8 @@ import java.net.InetSocketAddress;
 import java.security.GeneralSecurityException;
 import java.security.cert.Certificate;
 
+import org.eclipse.californium.core.CoapServer;
+import org.eclipse.californium.core.network.CoapEndpoint;
 import org.eclipse.californium.elements.config.Configuration;
 import org.eclipse.californium.elements.config.Configuration.DefinitionsProvider;
 import org.eclipse.californium.elements.util.SslContextUtil;
@@ -33,6 +35,12 @@ public class MyServer {
 	
 	
 	private DTLSConnector dtlsConnector;
+	
+	// ref: californium/demo-apps/cf-secure/src/main/java/org/eclipse/californium/examples/SecureServer.java /
+	//------------------------------------for observe---------------------------
+	private CoapServer server = null;
+	//--------------------------------------------------------------------------
+	
 	
 	public MyServer() {
 		
@@ -67,6 +75,18 @@ public class MyServer {
 			Certificate[] trustedCertificates = SslContextUtil.loadTrustedCertificates(
 					myusr_path + "\\" + TRUST_STORE_LOCATION, "mytruststorealias", TRUST_STORE_PASSWORD);
 			
+			// ref: californium/demo-apps/cf-secure/src/main/java/org/eclipse/californium/examples/SecureServer.java /
+			//------------------------------------for observe---------------------------
+			server = new CoapServer();
+			Com_MyObserverResource_Con_Mwe myobResc1 = new Com_MyObserverResource_Con_Mwe("hello_observer");
+			server.add(myobResc1);
+			//--------------------------------------------------------------------------
+			
+			
+			
+			
+			
+			
 			Configuration configuration = Configuration.createWithFile(Configuration.DEFAULT_FILE, "DTLS example server", DEFAULTS);
 			DtlsConnectorConfig.Builder builder = new DtlsConnectorConfig.Builder(configuration);
 		
@@ -80,22 +100,35 @@ public class MyServer {
 			builder.setAdvancedCertificateVerifier(StaticNewAdvancedCertificateVerifier.builder()
 					.setTrustedCertificates(trustedCertificates).setTrustAllRPKs().build());
 			dtlsConnector = new DTLSConnector(builder.build());
-			dtlsConnector
-					.setRawDataReceiver(new MyRawDataChannelImpl(dtlsConnector));
+			
 
+			
+			
+			// ref: californium/demo-apps/cf-secure/src/main/java/org/eclipse/californium/examples/SecureServer.java /
+			//------------------------------------for observe---------------------------
+			//去掉这句
+			//dtlsConnector.setRawDataReceiver(new MyRawDataChannelImpl(dtlsConnector));
+			CoapEndpoint.Builder coapBuilder = new CoapEndpoint.Builder()
+					.setConfiguration(configuration)
+					.setConnector(dtlsConnector);
+			server.addEndpoint(coapBuilder.build());
+			//--------------------------------------------------------------------------
+			
 		} catch (GeneralSecurityException | IOException e) {
 			LOG.error("Could not load the keystore", e);
 		}
 	}
 	
 	public void start() {
-		try {
-			dtlsConnector.start();
+
+			//dtlsConnector.start();
+			
+			// ref: californium/demo-apps/cf-secure/src/main/java/org/eclipse/californium/examples/SecureServer.java /
+			//------------------------------------for observe---------------------------
+			server.start();
+			//--------------------------------------------------------------------------
 			System.out.println("DTLS example server started");
-		} catch (IOException e) {
-			throw new IllegalStateException(
-					"Unexpected error starting the DTLS UDP server", e);
-		}
+
 	}
 	
 	
