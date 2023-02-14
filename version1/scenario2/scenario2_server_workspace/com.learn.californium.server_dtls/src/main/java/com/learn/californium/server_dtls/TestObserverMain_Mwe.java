@@ -67,7 +67,7 @@ public class TestObserverMain_Mwe  {
 	    
 		
 		int DEFAULT_PORT = 5684;
-		final Logger LOG = LoggerFactory.getLogger(MyServer.class.getName());
+		final Logger LOG = LoggerFactory.getLogger(TestObserverMain_Mwe.class.getName());
 		
 		final String KEY_STORE_LOCATION = "mycerts/my_own/mykeystore.jks";
 		//private static final char[] KEY_STORE_PASSWORD = "myKeyStoreAdministrator".toCharArray();

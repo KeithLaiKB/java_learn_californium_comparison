@@ -24,7 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.learn.californium.server_dtls.Com_MyObserverResource_Con_Mwe;
-import com.learn.californium.server_dtls.MyServer;
 
 
 
@@ -45,6 +44,8 @@ import com.learn.californium.server_dtls.MyServer;
  * 
  * psk可以不用 公私钥  直接自己写好 允许的客户端钥匙就可以  server这里用AdvancedMultiPskStore 记录允许客户端使用的 presharedkey, 
  * 例如用户 可以 使用不同的 preshared key
+ * 
+ * pre-shared key 不需要那些自己做的公私钥的文件
  *
  */
 public class TestObserverMain_Mwe  {
@@ -69,7 +70,7 @@ public class TestObserverMain_Mwe  {
 	    
 		
 		int DEFAULT_PORT = 5684;
-		final Logger LOG = LoggerFactory.getLogger(MyServer.class.getName());
+		final Logger LOG = LoggerFactory.getLogger(TestObserverMain_Mwe.class.getName());
 		
 		final String KEY_STORE_LOCATION = "mycerts/my_own/mykeystore.jks";
 		//private static final char[] KEY_STORE_PASSWORD = "myKeyStoreAdministrator".toCharArray();

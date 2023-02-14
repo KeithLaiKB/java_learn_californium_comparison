@@ -28,7 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.learn.californium.server_dtls.Com_MyObserverResource_Con_Mwe;
-import com.learn.californium.server_dtls.MyServer;
 
 
 
@@ -46,6 +45,9 @@ import com.learn.californium.server_dtls.MyServer;
  *
  *
  * @author laipl
+ *
+ * 这里尝试用的是javacoap那边生成的x509
+ * 暂时不能成功，因为我的x509证书 的生成方式 一开始是没有alias的 所以在这暂时用不了
  *
  */
 public class TestObserverMain_Mwe  {
@@ -70,14 +72,14 @@ public class TestObserverMain_Mwe  {
 	    
 		
 		int DEFAULT_PORT = 5684;
-		final Logger LOG = LoggerFactory.getLogger(MyServer.class.getName());
+		final Logger LOG = LoggerFactory.getLogger(TestObserverMain_Mwe.class.getName());
 		
-		final String KEY_STORE_LOCATION = "mycerts/my_own/mykeystore.jks";
-		//final String KEY_STORE_LOCATION = "mycerts/oneway_jks/mycerts/server_cert.jks";
+		//final String KEY_STORE_LOCATION = "mycerts/my_own/mykeystore.jks";
+		final String KEY_STORE_LOCATION = "mycerts/oneway_jks/mycerts/server_cert.jks";
 		//private static final char[] KEY_STORE_PASSWORD = "myKeyStoreAdministrator".toCharArray();
 		final char[] KEY_STORE_PASSWORD = "SksOneAdmin".toCharArray();
-		//final String TRUST_STORE_LOCATION = "mycerts/oneway_jks/mycerts/server_cert.crt";
-		final String TRUST_STORE_LOCATION = "mycerts/my_own/mykeystore_truststore.jks";
+		final String TRUST_STORE_LOCATION = "mycerts/oneway_jks/mycerts/server_cert.crt";
+		//final String TRUST_STORE_LOCATION = "mycerts/my_own/mykeystore_truststore.jks";
 		//private static final char[] TRUST_STORE_PASSWORD = "myTrustStoreAdministrator".toCharArray();
 		final char[] TRUST_STORE_PASSWORD = "StsOneAdmin".toCharArray();
 		
@@ -153,7 +155,7 @@ public class TestObserverMain_Mwe  {
 			
 			//builder.setCertificateIdentityProvider(new SingleCertificateProvider(serverCredentials.getPrivateKey(), serverCredentials.getCertificateChain(), CertificateType.RAW_PUBLIC_KEY, CertificateType.X_509));
 			//因为我自己生成的证书 我是 RAW_PUBLIC_KEY 所以 我可以不加上 CertificateType.X_509, 我觉得 它多加一个 CertificateType.X_509 应该是为了 以防 例如我们证书不是  RAW_PUBLIC_KEY 他就考虑你认为可能的的证书类型 
-			builder.setCertificateIdentityProvider(new SingleCertificateProvider(serverCredentials.getPrivateKey(), serverCredentials.getCertificateChain(), CertificateType.RAW_PUBLIC_KEY));
+			builder.setCertificateIdentityProvider(new SingleCertificateProvider(serverCredentials.getPrivateKey(), serverCredentials.getCertificateChain(), CertificateType.X_509));
 			
 			
 			

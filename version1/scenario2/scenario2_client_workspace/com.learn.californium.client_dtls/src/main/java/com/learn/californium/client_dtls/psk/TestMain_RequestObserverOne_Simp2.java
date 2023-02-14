@@ -48,6 +48,7 @@ import org.slf4j.LoggerFactory;
  * psk可以不用 公私钥  直接自己写好 允许的客户端钥匙就可以  client这里用AdvancedSinglePskStore 记录允许客户端使用的 presharedkey, 
  * 例如用户 可以 使用不同的 preshared key
  * 
+ * 跟1是一样的 看看是不是不同的用户用同个 PSK_IDENTITY和PSK_SECRET 能不能都能连接，结果是都可以
  */
 public class TestMain_RequestObserverOne_Simp2 {
 	private static int receivedMessageNum 					= 0;
