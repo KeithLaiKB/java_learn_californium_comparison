@@ -50,7 +50,8 @@ public class Com_MyObserverResource_Con_Mwe  extends CoapResource {
 		private MyTimerTaskForUpdate myUpdateTask1 	= null;
 		private Timer timer = null; 
 		//
-		private String content     	 				= "hello_world";
+		//private String content     	 				= "hello_world";
+		private String content     	 				= "hello";
 		//
 	    public boolean resourceFinished 			= false;
 	    //
