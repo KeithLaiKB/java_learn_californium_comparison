@@ -1,4 +1,4 @@
-package com.learn.californium.server;
+package com.learn.californium.server.totesttp;
 
 import java.util.Date;
 

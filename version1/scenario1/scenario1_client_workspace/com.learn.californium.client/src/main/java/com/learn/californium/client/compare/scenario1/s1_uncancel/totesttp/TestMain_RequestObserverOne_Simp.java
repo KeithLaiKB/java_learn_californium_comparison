@@ -1,4 +1,4 @@
-package com.learn.californium.client.compare.scenario1.s1_uncancel;
+package com.learn.californium.client.compare.scenario1.s1_uncancel.totesttp;
 
 
 import java.util.Scanner;

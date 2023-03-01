@@ -54,7 +54,7 @@ public class TestMain_RequestObserverOne_Simp {
 
 	public static void main(String[] args) {
     	//
-    	String myuri1 	     					= "coaps://localhost:5684/Resource1";
+    	String myuri1 	     					= "coaps://192.168.239.137:5684/Resource1";
     	CoapHandler myObserveHandler 			= null;
     	//
     	DTLSConnector dtlsConnector;
