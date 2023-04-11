@@ -1,4 +1,4 @@
-package com.learn.californium.client_dtls;
+package com.learn.californium.client_dtls.rpk;
 
 
 import java.io.IOException;

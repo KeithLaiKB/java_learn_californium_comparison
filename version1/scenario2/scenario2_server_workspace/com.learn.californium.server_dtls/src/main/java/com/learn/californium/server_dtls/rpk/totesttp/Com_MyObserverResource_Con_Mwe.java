@@ -1,4 +1,4 @@
-package com.learn.californium.server.totesttp;
+package com.learn.californium.server_dtls.rpk.totesttp;
 
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +42,7 @@ import org.eclipse.californium.core.server.resources.ResourceObserver;
  */
 public class Com_MyObserverResource_Con_Mwe  extends CoapResource {
 
-		private Type messageType        	= Type.CON;		// messageType 	vs qos			//测试中会看查这个是否会有影响字节数!!!!!!!!!!!!!!!!!!!
+		private Type messageType        	= Type.NON;		// messageType 	vs qos
 		//private int int_connect_get_num		=0;
 		private int statusUpdate			=0;
 		private int statusUpdateMaxTimes	=30;
@@ -50,7 +50,6 @@ public class Com_MyObserverResource_Con_Mwe  extends CoapResource {
 		private MyTimerTaskForUpdate myUpdateTask1 	= null;
 		private Timer timer = null; 
 		//
-		//private String content     	 				= "hello_world";
 		private String content     	 				= "Hello_World!";
 		//
 	    public boolean resourceFinished 			= false;
@@ -75,8 +74,7 @@ public class Com_MyObserverResource_Con_Mwe  extends CoapResource {
 			// 每5000ms 则去 执行一次 里面那个run 的 changed 从而通知所有的client, 通知的时候调用handleGet
 			//timer.schedule(new MyUpdateTask(),0, 5000);
 			myUpdateTask1 = new MyTimerTaskForUpdate();
-			this.timer.schedule(myUpdateTask1, 0, 500);
-			//this.timer.schedule(myUpdateTask1, 0, 5000);														//测试中把原来的500调到了5000 方便hello_world后面接的数字是个位数 来看字节数
+			timer.schedule(myUpdateTask1,0, 2000);					//测试中把原来的500调到了1000 方便hello_world后面接的数字是个位数 来看字节数
 			
 		}
 		
@@ -117,12 +115,9 @@ public class Com_MyObserverResource_Con_Mwe  extends CoapResource {
 		@Override
 		public void handleGET(CoapExchange exchange) {
 			System.out.println("--------------------------------------------------------------------");
-			System.out.println("--------- server side get method start -----------------------------");	
-			exchange.respond( ResponseCode.CONTENT, "", MediaTypeRegistry.TEXT_PLAIN);							//测试中会看查这个是否会有影响字节数!!!!!!!!!!!!!!!!!!!
-			//exchange.respond(ResponseCode.CONTENT, "");														//测试中会看查这个是否会有影响字节数!!!!!!!!!!!!!!!!!!!
-			//exchange.respond("");																				//测试中会看查这个是否会有影响字节数!!!!!!!!!!!!!!!!!!!
-			//exchange.respond(content+":"+statusUpdate);														//测试中会看查这个是否会有影响字节数!!!!!!!!!!!!!!!!!!!
-			//exchange.respond( ResponseCode.CONTENT, content+statusUpdate, MediaTypeRegistry.TEXT_PLAIN); 		//综上总结: 如果不写ResponseCode也可以, 它默认 ResponseCode.CONTENT, 如果不写 MediaTypeRegistry 也可以, 它默认是 MediaTypeRegistry.TEXT_PLAIN 
+			System.out.println("--------- server side get method start -----------------------------");
+			//exchange.respond(content+":"+statusUpdate);
+			exchange.respond( ResponseCode.CONTENT, content+":"+statusUpdate, MediaTypeRegistry.TEXT_PLAIN); // 如果不写ResponseCode也可以, 它默认 ResponseCode.CONTENT, 如果不写 MediaTypeRegistry 也可以, 它默认是 MediaTypeRegistry.TEXT_PLAIN 
 			System.out.println("--------- server side get method end -------------------------------");
 			System.out.println("--------------------------------------------------------------------");
 		}
