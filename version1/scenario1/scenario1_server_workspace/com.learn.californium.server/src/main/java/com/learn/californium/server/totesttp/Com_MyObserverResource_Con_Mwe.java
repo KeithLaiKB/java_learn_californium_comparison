@@ -118,10 +118,11 @@ public class Com_MyObserverResource_Con_Mwe  extends CoapResource {
 		public void handleGET(CoapExchange exchange) {
 			System.out.println("--------------------------------------------------------------------");
 			System.out.println("--------- server side get method start -----------------------------");	
-			exchange.respond( ResponseCode.CONTENT, "", MediaTypeRegistry.TEXT_PLAIN);							//测试中会看查这个是否会有影响字节数!!!!!!!!!!!!!!!!!!!
+			//exchange.respond( ResponseCode.CONTENT, "", MediaTypeRegistry.TEXT_PLAIN);							//测试中会看查这个是否会有影响字节数!!!!!!!!!!!!!!!!!!!
 			//exchange.respond(ResponseCode.CONTENT, "");														//测试中会看查这个是否会有影响字节数!!!!!!!!!!!!!!!!!!!
 			//exchange.respond("");																				//测试中会看查这个是否会有影响字节数!!!!!!!!!!!!!!!!!!!
-			//exchange.respond(content+":"+statusUpdate);														//测试中会看查这个是否会有影响字节数!!!!!!!!!!!!!!!!!!!
+			//exchange.setMaxAge(10L);																					//测试 在ACK 和CON 和 NON包会不会 多出这个option, 也就是验证这些包是否可以带多个option
+			exchange.respond(content+":"+statusUpdate);														//测试中会看查这个是否会有影响字节数!!!!!!!!!!!!!!!!!!!
 			//exchange.respond( ResponseCode.CONTENT, content+statusUpdate, MediaTypeRegistry.TEXT_PLAIN); 		//综上总结: 如果不写ResponseCode也可以, 它默认 ResponseCode.CONTENT, 如果不写 MediaTypeRegistry 也可以, 它默认是 MediaTypeRegistry.TEXT_PLAIN 
 			System.out.println("--------- server side get method end -------------------------------");
 			System.out.println("--------------------------------------------------------------------");
